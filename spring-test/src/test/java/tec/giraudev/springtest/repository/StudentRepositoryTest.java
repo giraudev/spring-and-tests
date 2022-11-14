@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import tec.giraudev.springtest.domain.Student;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -31,12 +32,23 @@ public class StudentRepositoryTest {
 
         //then
         then(student.get()).isNotNull();
-        then(student)
+        then(student.get().getName()).isEqualTo("Mark");
     }
 
     @Test
     void getAvgGradeForActiveStudentsCalculatesAvg(){
         //given
+        Student mark = Student.builder().active(true).name("Mark").grade(90).build();
+        Student susan = Student.builder().active(true).name("Susan").grade(100).build();
+        Student peter = Student.builder().active(true).name("Peter").grade(80).build();
+
+        Arrays.asList(mark, susan, peter).forEach(testEntityManager::persistAndFlush);
+
+        //when
+        Double avgGrade = studentRepository.getAvgGradeForActiveStudents();
+
+        //then
+        then(avgGrade).isEqualTo(90);
 
     }
 
