@@ -1,5 +1,6 @@
 package tec.giraudev.springtest.service;
 
+import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import tec.giraudev.springtest.repository.StudentRepository;
 
 import javax.transaction.Transactional;
 
+import static org.assertj.core.api.BDDAssertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -23,7 +25,7 @@ public class StudentServiceTest {
 
     @DisplayName("Returning saved student from service layer")
     @Test
-    void getStudentByIdForSavedStudentIsReturned(){
+    void getStudentByIdForSavedStudentIsReturned() throws StudentNotFoundException {
 
         //given
         Student savedStudent = studentRepository.saveAndFlush(new Student(null, "Mark"));
@@ -34,6 +36,17 @@ public class StudentServiceTest {
         //then
         then(student.getName()).isEqualTo("Mark");
         then(student.getId()).isNotNull();
+    }
 
+    @Test
+    void getStudentByIdWhenMissingStudentNotFoundExceptionThrown(){
+        //given
+        Long id = 1234L;
+
+        //when
+        Throwable throwable = catchThrowable(()->studentService.getStudentById(id));
+
+        //then
+        BDDAssertions.then(throwable).isInstanceOf(StudentNotFoundException.class);
     }
 }
