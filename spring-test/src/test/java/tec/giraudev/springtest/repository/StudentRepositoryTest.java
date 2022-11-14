@@ -28,11 +28,11 @@ public class StudentRepositoryTest {
         Student savedStudent = testEntityManager.persistAndFlush(new Student(null, "Mark"));
 
         //when
-        Optional<Student> student = studentRepository.getStudentByName(savedStudent.getName());
+        Student student = studentRepository.getStudentByName(savedStudent.getName());
 
         //then
-        then(student.get()).isNotNull();
-        then(student.get().getName()).isEqualTo("Mark");
+        then(student).isNotNull();
+        then(student.getName()).isEqualTo("Mark");
     }
 
     @Test
