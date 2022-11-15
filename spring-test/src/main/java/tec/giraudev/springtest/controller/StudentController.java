@@ -17,9 +17,8 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping("/students/{id}")
-    Student createStudent(@PathVariable Long id, @Validated @RequestBody Student student) {
-        studentService.create(id, student);
-        return studentService.getStudentById(id);
+    Student createStudent(@Validated @RequestBody Student student) {
+        return studentService.create(student);
     }
 
     @GetMapping("/students/{id}")
