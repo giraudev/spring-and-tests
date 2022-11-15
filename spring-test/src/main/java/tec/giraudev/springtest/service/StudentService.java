@@ -19,4 +19,11 @@ public class StudentService {
         //return studentRepository.findById(id).orElse(null);
         return studentRepository.findById(id).orElseThrow(()-> new StudentNotFoundException());
     }
+
+    public void create(Long id, Student student) {
+
+    }
+
+    public void get(Long id) {
+    }
 }
