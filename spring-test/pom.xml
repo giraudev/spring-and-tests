@@ -71,6 +71,7 @@
 					<testFramework>JUNIT5</testFramework>
 					<testMode>MOCKMVC</testMode>
 					<baseClassForTests>tec.giraudev.springtest.controller.StudentControllerBaseClass</baseClassForTests>
+
 				</configuration>
 			</plugin>
 			<plugin>
